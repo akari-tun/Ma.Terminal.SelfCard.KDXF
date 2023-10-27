@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+    <!-- MainPage -->
+    <system:String x:Key="TermNo">设备编号：</system:String>
+    <system:String x:Key="QrCode">二维码</system:String>
+    <system:String x:Key="CopyRight">版权所有@2023 科大讯飞党群服务中心</system:String>
+</ResourceDictionary>
