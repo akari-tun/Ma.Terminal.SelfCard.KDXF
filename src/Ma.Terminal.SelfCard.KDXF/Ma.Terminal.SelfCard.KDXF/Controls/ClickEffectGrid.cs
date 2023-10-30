@@ -29,60 +29,94 @@ namespace Ma.Terminal.SelfCard.KDXF.Controls
             DependencyProperty.Register("IsPressing", typeof(bool), typeof(ClickEffectGrid), new PropertyMetadata(false));
 
 
+        public bool IsClickable
+        {
+            get { return (bool)GetValue(IsClickableProperty); }
+            set { SetValue(IsClickableProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsClickableProperty =
+            DependencyProperty.Register("IsClickable", typeof(bool), typeof(ClickEffectGrid), new PropertyMetadata(true));
+
+
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            this.Margin = HOVER_MARGIN_THICKNESS;
             base.OnMouseLeftButtonDown(e);
 
-            IsPressing = true;
-            OnPressing?.Invoke(this, true);
+            if (IsClickable)
+            {
+                this.Margin = HOVER_MARGIN_THICKNESS;
+
+                IsPressing = true;
+                OnPressing?.Invoke(this, true);
+            }
         }
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
-            this.Margin = DEFAULT_MARGIN_THICKNESS;
             base.OnMouseLeftButtonUp(e);
 
-            OnClick?.Invoke(this);
+            if (IsClickable)
+            {
+                this.Margin = DEFAULT_MARGIN_THICKNESS;
 
-            IsPressing = false;
-            OnPressing?.Invoke(this, false);
+                OnClick?.Invoke(this);
+
+                IsPressing = false;
+                OnPressing?.Invoke(this, false);
+            }
         }
 
         protected override void OnTouchDown(TouchEventArgs e)
         {
-            this.Margin = HOVER_MARGIN_THICKNESS;
             base.OnTouchDown(e);
 
-            IsPressing = true;
-            OnPressing?.Invoke(this, true);
+            if (IsClickable)
+            {
+                this.Margin = HOVER_MARGIN_THICKNESS;
+
+                IsPressing = true;
+                OnPressing?.Invoke(this, true);
+            }
         }
 
         protected override void OnTouchUp(TouchEventArgs e)
         {
-            this.Margin = DEFAULT_MARGIN_THICKNESS;
             base.OnTouchUp(e);
 
-            IsPressing = false;
-            OnPressing?.Invoke(this, false);
+            if (IsClickable)
+            {
+                this.Margin = DEFAULT_MARGIN_THICKNESS;
+
+                IsPressing = false;
+                OnPressing?.Invoke(this, false);
+            }
         }
 
         protected override void OnMouseLeave(MouseEventArgs e)
         {
-            this.Margin = DEFAULT_MARGIN_THICKNESS;
             base.OnMouseLeave(e);
 
-            IsPressing = false;
-            OnPressing?.Invoke(this, false);
+            if (IsClickable)
+            {
+                this.Margin = DEFAULT_MARGIN_THICKNESS;
+
+                IsPressing = false;
+                OnPressing?.Invoke(this, false);
+            }
         }
 
         protected override void OnTouchLeave(TouchEventArgs e)
         {
-            this.Margin = DEFAULT_MARGIN_THICKNESS;
             base.OnTouchLeave(e);
 
-            IsPressing = false;
-            OnPressing?.Invoke(this, false);
+            if (IsClickable)
+            {
+                this.Margin = DEFAULT_MARGIN_THICKNESS;
+
+                IsPressing = false;
+                OnPressing?.Invoke(this, false);
+            }
         }
     }
 }

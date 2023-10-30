@@ -1,15 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Ma.Terminal.SelfCard.KDXF.Model;
 using Ma.Terminal.SelfCard.KDXF.ViewModel;
+using Ma.Terminal.SelfCard.KDXF.WebApi;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -25,7 +21,7 @@ namespace Ma.Terminal.SelfCard.KDXF
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            mutex = new System.Threading.Mutex(true, "Terminal.SelfService");
+            mutex = new System.Threading.Mutex(true, "Terminal.SelfCard");
             if (mutex.WaitOne(0, false))
             {
                 _logger.Info($"App is OnStartup...");
@@ -41,15 +37,29 @@ namespace Ma.Terminal.SelfCard.KDXF
             cfgBuilder.AddJsonFile("machine.json", optional: false, reloadOnChange: false);
             IConfigurationRoot cfgRoot = cfgBuilder.Build();
 
+            var config = ItemsConfig.Read();
+            _logger.Info($"Material config loaded {config}");
+
             Ioc.Default.ConfigureServices(new ServiceCollection()
                 .AddSingleton(typeof(MainPageViewModel))
+                .AddSingleton(typeof(SignInPageViewModel))
+                .AddSingleton(typeof(InfoPageViewModel))
+                .AddSingleton(typeof(ResultPageViewModel))
+                .AddSingleton(typeof(NeedKnowPageViewModel))
                 .AddSingleton(new Machine()
                 {
                     MachineNo = cfgRoot.GetSection("MachineNo").Value,
                     ApiUrl = cfgRoot.GetSection("ApiUrl").Value,
                     AppId = cfgRoot.GetSection("AppId").Value,
+                    Key = cfgRoot.GetSection("Key").Value,
+                    NeedKnowUrl = cfgRoot.GetSection("NeedKnowUrl").Value
                 })
-                .BuildServiceProvider());
+                .AddSingleton(typeof(Requester))
+                .AddSingleton(typeof(Device.IdReader.Reader))
+                .AddSingleton(typeof(Device.QrReader.Reader))
+                .AddSingleton(typeof(Device.CardReader.Reader))
+                .AddSingleton(config)
+                .BuildServiceProvider()); ;
 
             try
             {

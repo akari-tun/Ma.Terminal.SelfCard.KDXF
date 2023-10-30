@@ -99,8 +99,10 @@
                     </Viewbox>
                 </Grid>
             </Border>
-            <controls:ClickEffectGrid Grid.Column="3" Grid.Row="0">
-                <Image Source="pack://SiteOfOrigin:,,,/Resource/Image/SignName_BG.png" />
+            <controls:ClickEffectGrid Grid.Column="3" Grid.Row="0" Tag="0"
+                                      IsClickable="{Binding IsClickable, Mode=OneWay}"
+                                      OnClick="ClickEffectGrid_OnClick">
+                <Image Source="pack://SiteOfOrigin:,,,/Resource/Image/SignIn_BG.png" />
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="68*" />
@@ -115,12 +117,14 @@
                         <ColumnDefinition Width="70*" />
                     </Grid.ColumnDefinitions>
                     <Image Grid.Row="1" Grid.Column="1"
-                           Source="pack://SiteOfOrigin:,,,/Resource/Image/SignName_Icon.png" />
+                           Source="pack://SiteOfOrigin:,,,/Resource/Image/SignIn_Icon.png" />
                     <Image Grid.Row="1" Grid.Column="3"
-                           Source="pack://SiteOfOrigin:,,,/Resource/Image/SignName_Text.png" />
+                           Source="pack://SiteOfOrigin:,,,/Resource/Image/SignIn_Text.png" />
                 </Grid>
             </controls:ClickEffectGrid>
-            <controls:ClickEffectGrid Grid.Column="3" Grid.Row="2">
+            <controls:ClickEffectGrid Grid.Column="3" Grid.Row="2" Tag="2"
+                                      IsClickable="{Binding IsClickable, Mode=OneWay}"
+                                      OnClick="ClickEffectGrid_OnClick">
                 <Image Source="pack://SiteOfOrigin:,,,/Resource/Image/NeedKnow_BG.png" />
                 <Grid>
                     <Grid.RowDefinitions>
@@ -155,7 +159,9 @@
                 <ColumnDefinition Width="480*" />
                 <ColumnDefinition Width="40*" />
             </Grid.ColumnDefinitions>
-            <controls:ClickEffectGrid Grid.Column="1" Grid.Row="0">
+            <controls:ClickEffectGrid Grid.Column="1" Grid.Row="0" Tag="3"
+                                      IsClickable="{Binding IsClickable, Mode=OneWay}"
+                                      OnClick="ClickEffectGrid_OnClick">
                 <Image Source="pack://SiteOfOrigin:,,,/Resource/Image/Lost_BG.png" />
                 <Grid>
                     <Grid.RowDefinitions>
@@ -190,7 +196,9 @@
                            Source="pack://SiteOfOrigin:,,,/Resource/Image/Lost_Text.png" />
                 </Grid>
             </controls:ClickEffectGrid>
-            <controls:ClickEffectGrid Grid.Column="1" Grid.Row="2">
+            <controls:ClickEffectGrid Grid.Column="1" Grid.Row="2" Tag="4"
+                                      IsClickable="{Binding IsClickable, Mode=OneWay}"
+                                      OnClick="ClickEffectGrid_OnClick">
                 <Image Source="pack://SiteOfOrigin:,,,/Resource/Image/Unlost_BG.png" />
                 <Grid>
                     <Grid.RowDefinitions>
@@ -257,5 +265,11 @@
                            FontWeight="Normal"/>
             </Viewbox>
         </Grid>
+        <Grid Grid.Row="0" Grid.RowSpan="11" 
+              Visibility="{Binding ContainerVisibility, Mode=OneWay}">
+            <Border Background="Black" Opacity="0.5" />
+            <Frame x:Name="SecondyFrame" Margin="{Binding ContainerMargin, Mode=OneWay}" />
+        </Grid>
+
     </Grid>
 </Page>

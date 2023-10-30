@@ -9,5 +9,7 @@ namespace Ma.Terminal.SelfCard.KDXF.Model
         public string MachineNo { get; set; }
         public string ApiUrl { get; set; }
         public string AppId { get; set; }
+        public string Key { get; set; }
+        public string NeedKnowUrl { get; set; }
     }
 }

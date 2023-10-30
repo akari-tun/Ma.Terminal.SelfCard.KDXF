@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Ma.Terminal.SelfCard.KDXF.Controls;
 using Ma.Terminal.SelfCard.KDXF.Model;
 using Ma.Terminal.SelfCard.KDXF.ViewModel;
 using System;
@@ -32,17 +33,57 @@ namespace Ma.Terminal.SelfCard.KDXF.View
             _viewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
             DataContext = _viewModel;
 
-            Loaded += MainPageView_Loaded;
-        }
+            var signIn = new SignInPageView();
+            var info = new InfoPageView();
+            var result = new ResultPageView();
+            var needKnow = new NeedKnowPageView();
 
-        private void MainPageView_Loaded(object sender, RoutedEventArgs e)
-        {
-            
+            signIn.OnClose = SubPageClose;
+            info.OnClose = SubPageClose;
+            result.OnClose = SubPageClose;
+            needKnow.OnClose = SubPageClose;
+
+            (signIn.ViewModel as SignInPageViewModel).NavigationTo = NavigationToTO;
+            (info.ViewModel as InfoPageViewModel).NavigationTo = NavigationToTO;
+
+            _viewModel.FunPages = new Dictionary<FunctionEnum, IPageViewInterface>()
+            {
+                { FunctionEnum.SIGN, signIn },
+                { FunctionEnum.INFO, info },
+                { FunctionEnum.NEEDKNOW, needKnow },
+                { FunctionEnum.LOST, null },
+                { FunctionEnum.UNLOST, null },
+                { FunctionEnum.RESULT, result },
+            };
         }
 
         public IPageViewInterface Init()
         {
+            _viewModel.Initialization();
             return this;
+        }
+
+        private void ClickEffectGrid_OnClick(ClickEffectGrid sender)
+        {
+            FunctionEnum func = (FunctionEnum)Convert.ToInt32(sender.Tag);
+            SecondyFrame.Content = _viewModel.ShowSubPage(func);
+        }
+
+        private void NavigationToTO(FunctionEnum func, object data)
+        {
+            SecondyFrame.Content = _viewModel.ShowSubPage(func, data);
+        }
+
+        private void SubPageClose(IPageViewInterface page)
+        {
+            page.ViewModel.Data = null;
+            page.ViewModel.IsRunning = false;
+
+            SecondyFrame.Content = null;
+
+            _viewModel.ContainerVisibility = Visibility.Hidden;
+            _viewModel.CurrentView = null;
+            _viewModel.Initialization();
         }
     }
 }

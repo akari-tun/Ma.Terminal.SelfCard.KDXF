@@ -12,58 +12,93 @@ namespace Ma.Terminal.SelfCard.KDXF.ViewModel
 {
     public class MainPageViewModel : ViewModelBase
     {
-        private Machine _machine;
+#if DEBUG
+        const double HEIGTH_RATIO = 1080d / 1920d;
+        const double WIDTH_RATIO = 607d / 1080d;
+#else
+        const double HEIGTH_RATIO = 1920d / 1920d;
+        const double WIDTH_RATIO = 1080d / 1080d;
+#endif
 
-        string _time;
-        public string Time
+        Thickness _signMargin = new Thickness(110d * WIDTH_RATIO, 503d * HEIGTH_RATIO, 110d * WIDTH_RATIO, 502d * HEIGTH_RATIO);
+        Thickness _infoMargin = new Thickness(110d * WIDTH_RATIO, 447d * HEIGTH_RATIO, 110d * WIDTH_RATIO, 446d * HEIGTH_RATIO);
+        Thickness _needKnowMargin = new Thickness(110d * WIDTH_RATIO, 339d * HEIGTH_RATIO, 110d * WIDTH_RATIO, 289 * HEIGTH_RATIO);
+        Thickness _resultMargin = new Thickness(179d * WIDTH_RATIO, 623d * HEIGTH_RATIO, 179d * WIDTH_RATIO, 622d * HEIGTH_RATIO);
+
+        ItemsConfig _config;
+
+        public Dictionary<FunctionEnum, IPageViewInterface> FunPages { get; set; }
+        public IPageViewInterface CurrentView { get; set; }
+
+
+        Thickness _containerMargin;
+        public Thickness ContainerMargin
         {
-            get => _time;
-            set
-            {
-                SetProperty(ref _time, value);
-            }
+            get { return _containerMargin; }
+            set { SetProperty(ref _containerMargin, value); }
         }
 
-        string _machineNo;
-        public string MachineNo
+        Visibility _containerVisibility;
+        public Visibility ContainerVisibility
         {
-            get => _machineNo;
-            set
-            {
-                SetProperty(ref _machineNo, value);
-            }
+            get { return _containerVisibility; }
+            set { SetProperty(ref _containerVisibility, value); }
         }
 
-        public MainPageViewModel(Machine machine)
+        bool _isClickable = false;
+        public bool IsClickable
         {
-            _machine = machine;
+            get { return _isClickable; }
+            set { SetProperty(ref _isClickable, value); }
+        }
 
-            Task.Run(() =>
-            {
-                IsRunning = true;
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-
-                while (IsRunning)
-                {
-                    if (stopwatch.ElapsedMilliseconds > 1000)
-                    {
-                        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            Time = DateTime.Now.ToString("HH:mm:ss");
-                        }));
-
-                        stopwatch.Restart();
-                    }
-
-                    Thread.Sleep(100);
-                }
-            });
+        public MainPageViewModel(Machine machine, ItemsConfig config)
+            : base(machine)
+        {
+            _config = config;
+            _containerMargin = _signMargin;
+            _containerVisibility = Visibility.Hidden;
         }
 
         public override void Initialization()
         {
-            var machine = Ioc.Default.GetRequiredService<Machine>();
+            IsClickable = _config.Status > 0;
+            OnPropertyChanged(nameof(ContainerMargin));
+            OnPropertyChanged(nameof(ContainerVisibility));
+        }
+
+        public IPageViewInterface ShowSubPage(FunctionEnum func, object data = null)
+        {
+            CurrentView = FunPages[func];
+
+            if (CurrentView != null)
+            {
+                switch (func)
+                {
+                    case FunctionEnum.SIGN:
+                        ContainerMargin = _signMargin;
+                        break;
+                    case FunctionEnum.INFO:
+                        ContainerMargin = _infoMargin;
+                        break;
+                    case FunctionEnum.NEEDKNOW:
+                        ContainerMargin = _needKnowMargin;
+                        break;
+                    case FunctionEnum.LOST:
+                        break;
+                    case FunctionEnum.UNLOST:
+                        break;
+                    case FunctionEnum.RESULT:
+                        ContainerMargin = _resultMargin;
+                        break;
+                }
+
+                ContainerVisibility = Visibility.Visible;
+                if (data != null) CurrentView.ViewModel.Data = data;
+                CurrentView.Init();
+            }
+
+            return CurrentView;
         }
     }
 }

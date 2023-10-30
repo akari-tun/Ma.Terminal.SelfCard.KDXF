@@ -5,4 +5,12 @@
     <system:String x:Key="TermNo">设备编号：</system:String>
     <system:String x:Key="QrCode">二维码</system:String>
     <system:String x:Key="CopyRight">版权所有@2023 科大讯飞党群服务中心</system:String>
+    <system:String x:Key="InputTips">刷身份证;或者输入身份证后4位+手机号后4位</system:String>
+    
+    <!-- InfoPage -->
+    <system:String x:Key="Name">姓名：</system:String>
+    <system:String x:Key="Account">帐号：</system:String>
+    <system:String x:Key="ClassName">班级名称：</system:String>
+    <system:String x:Key="BranchDept">支部信息：</system:String>
+    <system:String x:Key="RoomInfo">房间信息：</system:String>
 </ResourceDictionary>

@@ -1,5 +1,7 @@
 {
   "MachineNo": "101",
-  "ApiUrl": "http://ykttest.innoecos.cn:9001",
-  "AppId": "ZZBKJ202309001",
+  "ApiUrl": "http://ykttest.innoecos.cn:9002",
+  "NeedKnowUrl": "https://www.baidu.com",
+  "AppId": "vC5rNcpegZmYBG41",
+  "Key": "0488076214BDB95BBC1CBBE03952FDB619CB9673E71E39D337CE6EB7DBF265C07599D147D9C674F28613E8E9BF6A47E6A602CC614E50571592CEDF4A46318B38FA"
 }

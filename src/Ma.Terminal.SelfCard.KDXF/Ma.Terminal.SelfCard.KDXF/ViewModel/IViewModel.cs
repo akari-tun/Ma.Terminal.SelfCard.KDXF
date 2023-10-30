@@ -7,5 +7,6 @@ namespace Ma.Terminal.SelfCard.KDXF.ViewModel
     public interface IViewModel
     {
         bool IsRunning { get; set; }
+        object Data { get; set; }
     }
 }
