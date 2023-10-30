@@ -1,0 +1,75 @@
+﻿<Page x:Class="Ma.Terminal.SelfCard.KDXF.View.SecondyPageView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Ma.Terminal.SelfCard.KDXF.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="1920" d:DesignWidth="1080"
+      Title="SecondlyPageView">
+
+    <Border Background="White" Opacity="0.5">
+        <Grid>
+            <Image Source="pack://SiteOfOrigin:,,,/Resource/Image/Background.png" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="58*" />
+                    <RowDefinition Height="1790*" />
+                    <RowDefinition Height="29*" />
+                    <RowDefinition Height="23*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40*" />
+                        <ColumnDefinition Width="500*" />
+                        <ColumnDefinition Width="500*" />
+                        <ColumnDefinition Width="40*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15*" />
+                            <RowDefinition Height="29*" />
+                            <RowDefinition Height="14*" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1">
+                            <Viewbox HorizontalAlignment="Left">
+                                <TextBlock Text="{StaticResource TermNo}"
+                               Foreground="White"
+                               FontWeight="Light"/>
+                            </Viewbox>
+                            <Viewbox HorizontalAlignment="Left">
+                                <TextBlock x:Name="TermNo"
+                               Foreground="White"
+                               Text="{Binding MachineNo, Mode=OneWay}"
+                               FontWeight="Light"/>
+                            </Viewbox>
+                        </StackPanel>
+                    </Grid>
+                    <Viewbox Grid.Column="2" HorizontalAlignment="Right">
+                        <TextBlock x:Name="Time"
+                           Foreground="White"
+                           Text="{Binding Time, Mode=OneWay}"
+                           FontWeight="Bold"/>
+                    </Viewbox>
+                </Grid>
+                <Grid Grid.Row="0" Grid.RowSpan="5">
+                    <Frame x:Name="MainFrame" />
+                </Grid>
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40*" />
+                        <ColumnDefinition Width="500*" />
+                        <ColumnDefinition Width="500*" />
+                        <ColumnDefinition Width="40*" />
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="2" HorizontalAlignment="Right">
+                        <TextBlock Foreground="White"
+                           Text="{StaticResource CopyRight}"
+                           FontWeight="Normal"/>
+                    </Viewbox>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Page>
